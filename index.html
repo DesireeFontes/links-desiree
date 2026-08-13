@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Desiree Fontes — Revit, BIM e Automação." />
+  <title>Desiree Fontes</title>
+  <style>
+    :root{
+      --navy:#071725;
+      --wine:#651626;
+      --red:#B3343E;
+      --paper:#F3EFE8;
+      --muted:#AAB6BE;
+      --white:#FFFFFF;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:var(--navy);
+      color:var(--paper);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      -webkit-font-smoothing:antialiased;
+    }
+    .wrap{
+      width:min(100%,560px);
+      padding:42px 20px 34px;
+    }
+    .top{
+      text-align:center;
+      margin-bottom:34px;
+    }
+    .name{
+      margin:0;
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      color:#D6DEE3;
+    }
+    .meta{
+      margin:8px 0 0;
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:.05em;
+    }
+    h1{
+      margin:30px 0 0;
+      font-size:clamp(34px,8vw,52px);
+      line-height:1.03;
+      letter-spacing:-.04em;
+      font-weight:780;
+    }
+    h1 span{color:#D59AA0}
+    .question{
+      margin:42px 0 14px;
+      font-size:13px;
+      font-weight:700;
+      color:#C9D2D8;
+    }
+    .links{
+      display:grid;
+      gap:12px;
+    }
+    .card{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      min-height:92px;
+      padding:20px 22px;
+      border:1px solid rgba(243,239,232,.16);
+      background:rgba(255,255,255,.035);
+      color:var(--paper);
+      text-decoration:none;
+      transition:.18s ease;
+    }
+    .card:hover{
+      transform:translateY(-2px);
+      border-color:rgba(179,52,62,.75);
+      background:rgba(255,255,255,.06);
+    }
+    .card.primary{
+      background:var(--paper);
+      border-color:var(--paper);
+      color:var(--navy);
+    }
+    .card.primary:hover{background:#FFFDFC}
+    .label{
+      display:block;
+      margin-bottom:5px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.11em;
+      text-transform:uppercase;
+      color:var(--red);
+    }
+    .card:not(.primary) .label{color:#D99BA1}
+    .title{
+      display:block;
+      font-size:18px;
+      line-height:1.25;
+      font-weight:780;
+      letter-spacing:-.01em;
+    }
+    .desc{
+      display:block;
+      margin-top:5px;
+      max-width:360px;
+      font-size:12.5px;
+      line-height:1.42;
+      color:#AAB6BE;
+      font-weight:500;
+    }
+    .arrow{
+      flex:none;
+      font-size:25px;
+      line-height:1;
+    }
+    .footer{
+      margin-top:28px;
+      text-align:center;
+      font-size:12px;
+      color:#7F909B;
+    }
+    @media(max-width:520px){
+      body{align-items:flex-start}
+      .wrap{padding-top:30px}
+      .top{margin-bottom:28px}
+      .question{margin-top:36px}
+      .card{min-height:86px;padding:18px}
+      .title{font-size:17px}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="top">
+      <p class="name">Desiree Fontes</p>
+      <p class="meta">Revit • BIM • Automação</p>
+      <h1>Menos retrabalho.<br><span>Mais processo.</span></h1>
+    </header>
+
+    <p class="question">Por onde você quer começar?</p>
+
+    <section class="links">
+      <a class="card primary"
+         href="https://desireefontes.github.io/revisor-de-pranchas/"
+         target="_blank"
+         rel="noopener">
+        <span>
+          <span class="label">Solução prática</span>
+          <span class="title">Revisor de Pranchas</span>
+        </span>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="card"
+         href="https://docs.google.com/forms/d/e/1FAIpQLSfhkQjeohvQHk87KYNFfe3CmpO6eaMHfah1i2p9z2mmsQEM7Q/viewform?usp=publish-editor"
+         target="_blank"
+         rel="noopener">
+        <span>
+          <span class="label">Próximo nível</span>
+          <span class="title">Lista de espera do LabTech</span>
+          <span class="desc">Acompanhamento para estruturar, padronizar e automatizar seu processo no Revit.</span>
+        </span>
+        <span class="arrow">→</span>
+      </a>
+    </section>
+
+    <div class="footer">@desiree.fontes</div>
+  </main>
+</body>
+</html>
