@@ -1,0 +1,10 @@
+AUTO COTAS — ARQUIVOS PARA GITHUB
+
+1. Suba TODOS os arquivos desta pasta juntos para a pasta /autocotas do repositório links-desiree.
+2. O arquivo principal precisa se chamar index.html.
+3. As imagens imagem-01.jpg até imagem-10.jpg precisam ficar na MESMA pasta do index.html.
+4. termos.html e privacidade.html também ficam na mesma pasta.
+5. O checkout ainda está propositalmente pendente. Quando tiver o Hotlink da Hotmart, substitua no index.html as duas ocorrências de #checkout-pendente pelo link do checkout e remova o script de alerta no final do arquivo.
+
+URL esperada após subir:
+https://desireefontes.github.io/links-desiree/autocotas/
