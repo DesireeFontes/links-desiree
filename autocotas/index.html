@@ -1,2 +1,425 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AutoCotas — cotagem automática de plantas no Revit</title><meta name="description" content="Abra a planta e aperte play. O AutoCotas automatiza cotas externas e internas no Revit pelo Dynamo Player."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet"><style>:root{--b:#4F1118;--b2:#3A0C12;--p:#FAF8F6;--p2:#F2EDEA;--i:#23191A;--m:#6B5F5B;--r:#D8D0CB;--d:#9B2C2C;--w:1080px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--p);color:var(--i);font-family:Archivo,Arial,sans-serif;font-size:17px;line-height:1.6}a{color:inherit}.wrap{max-width:var(--w);margin:auto;padding:0 24px}.narrow{max-width:760px}h1,h2,h3{margin:0;line-height:1.13;letter-spacing:-.025em}h1{font-size:clamp(36px,5.3vw,58px)}h2{font-size:clamp(28px,3.8vw,40px)}h3{font-size:20px}section{padding:78px 0}.hero,.price{background:var(--b);color:#F7EFED}.brand{padding-top:28px;font-size:19px;font-weight:700}.brand span{font-weight:400;color:#D8AAA3}.heroGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center;padding-top:64px;padding-bottom:72px}.sub{font-size:20px;color:#E3C9C4;max-width:48ch;margin:20px 0 0}.hero ul,.price ul{list-style:none;padding:0;margin:28px 0 0}.hero li,.price li{position:relative;padding-left:26px;margin:10px 0}.hero li:before,.price li:before{content:"";position:absolute;left:0;top:.68em;width:14px;height:2px;background:#C98077}.cta{display:inline-block;margin-top:30px;padding:17px 32px;background:#fff;color:var(--b);font-weight:700;text-decoration:none;border-radius:3px}.cta.pending{opacity:.75}.micro{margin-top:12px;font-size:14px;color:#C99D96}.card{background:#fff;color:var(--i);padding:34px;border-radius:4px;box-shadow:0 18px 50px rgba(0,0,0,.24)}.metric{font-size:clamp(68px,10vw,105px);font-weight:700;color:var(--b);line-height:.95;letter-spacing:-.05em}.metric small{font-size:.28em;letter-spacing:0;color:var(--i)}.lede{font-size:19px;color:var(--m);max-width:58ch}.rule{height:1px;background:var(--r)}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:38px}.box{border-top:1px solid var(--r);padding-top:20px}.box p{color:var(--m)}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:36px}.step{border-top:1px solid var(--r);padding:20px 20px 0 0}.step b{display:block;color:var(--d);font-size:14px;margin-bottom:8px}.compare{width:100%;border-collapse:collapse;margin-top:34px;font-size:16px}.compare th,.compare td{text-align:left;padding:14px;border-bottom:1px solid var(--r);vertical-align:top}.compare thead th{color:var(--m)}.price .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}.tag{font-size:78px;font-weight:700;line-height:1;letter-spacing:-.05em}.tag sup{font-size:.32em;vertical-align:.9em}.faq{margin-top:30px;border-top:1px solid var(--r)}details{border-bottom:1px solid var(--r)}summary{cursor:pointer;padding:18px 0;font-weight:600}.a{color:var(--m);padding:0 0 18px;max-width:70ch}.support{background:var(--p2)}.support a{font-size:24px;font-weight:700;text-decoration:none}.legal{padding:42px 0 58px;color:var(--m);font-size:14px}.legal a{color:var(--m)}.notice{font-size:14px;padding:12px 16px;background:#fff3cd;color:#6b4e00;border:1px solid #ead58c;border-radius:3px;margin-top:16px;max-width:52ch}@media(max-width:850px){section{padding:56px 0}.heroGrid,.price .wrap{grid-template-columns:1fr;gap:36px}.grid3,.steps{grid-template-columns:1fr}.tag{font-size:64px}.compare{font-size:14px}.compare th,.compare td{padding:10px 8px}}</style></head><body><header class="hero"><div class="wrap"><div class="brand">AutoCotas <span>· automação para Revit</span></div></div><div class="wrap heroGrid"><div><h1>Abra a planta e aperte play. A rotina cota a planta inteira.</h1><p class="sub">Um arquivo que você salva uma vez e executa pelo Dynamo Player. Instala e usa hoje — sem abrir o Dynamo.</p><ul><li>Cota a planta inteira, ou só as paredes que você selecionar</li><li>Já cotou antes? Ela completa só o que falta</li><li>Cotas externas e internas na mesma execução</li></ul><a class="cta pending" href="#comprar">Quero a rotina pronta</a><div class="notice">Checkout Hotmart sendo conectado. Esta página já está publicada; o botão será ativado assim que o link de pagamento for inserido.</div></div><div class="card"><div class="metric">30<small> segundos</small></div><h3 style="margin-top:18px">Do play até a planta cotada</h3><p style="color:var(--m);margin-bottom:0">Teste real em planta arquitetônica. O tempo varia conforme o projeto, mas a proposta é simples: tirar a cotagem repetitiva do caminho.</p></div></div></header><section><div class="wrap narrow"><h2>O trabalho continua sendo seu. O braço repetitivo, não.</h2><p class="lede" style="margin-top:18px">O AutoCotas foi feito para a parte previsível da documentação: paredes, vãos, linhas externas e dimensões internas que se repetem planta após planta.</p><div class="grid3"><div class="box"><h3>Cotas externas</h3><p>Linhas escalonadas com vãos, espessuras e dimensão total.</p></div><div class="box"><h3>Cotas internas</h3><p>Dimensões dos ambientes na mesma execução.</p></div><div class="box"><h3>Sem pacotes externos</h3><p>Executa pelo Dynamo Player que já acompanha o Revit.</p></div></div></div></section><div class="rule"></div><section><div class="wrap"><h2>Instala uma vez. Depois é abrir a planta e executar.</h2><div class="steps"><div class="step"><b>01</b>Baixe o arquivo e o guia.</div><div class="step"><b>02</b>Aponte a pasta no Dynamo Player.</div><div class="step"><b>03</b>Abra a planta e escolha as opções.</div><div class="step"><b>04</b>Aperte play e confira o resultado.</div></div></div></section><div class="rule"></div><section><div class="wrap"><h2>Manual x AutoCotas</h2><table class="compare"><thead><tr><th></th><th>Na mão</th><th>Com a rotina</th></tr></thead><tbody><tr><th>Início</th><td>Criar linha por linha</td><td>Configurar e executar</td></tr><tr><th>Vãos</th><td>Selecionar referências repetidamente</td><td>Cota pelas extremidades do vão</td></tr><tr><th>Padrão</th><td>Depende de lembrar o critério</td><td>Repete o mesmo critério</td></tr><tr><th>Revisão</th><td>Refazer trechos manualmente</td><td>Executar novamente e completar o que falta</td></tr></tbody></table><p class="lede" style="margin-top:28px"><strong>A diferença não é o resultado. É o caminho até ele.</strong></p></div></section><section class="price" id="comprar"><div class="wrap"><div><h2>Cote a próxima planta com a rotina rodando</h2><ul><li>Automação pronta para o Dynamo Player</li><li>PDF de instalação e uso</li><li>Arquivo de projeto exemplo</li><li>Acesso vitalício e versões novas inclusas</li></ul></div><div><div class="tag"><sup>R$</sup>67</div><p class="micro">Compra única, sem assinatura · garantia de 7 dias pela Hotmart</p><a class="cta pending" href="#comprar">Quero a rotina pronta</a><div class="notice">Botão aguardando apenas o Hotlink/checkout oficial do AutoCotas.</div></div></div></section><section><div class="wrap narrow"><h2>Desiree Fontes</h2><p class="lede" style="margin-top:14px">Arquiteta com 10 anos de experiência em Revit e documentação de projeto. O AutoCotas nasceu de anos lidando com o trabalho repetitivo de produção executiva e transformando essas tarefas em ferramentas e métodos mais rápidos.</p></div></section><div class="rule"></div><section><div class="wrap narrow"><h2>Perguntas frequentes</h2><div class="faq"><details open><summary>Preciso selecionar as paredes?</summary><div class="a">Não. Sem seleção, a rotina cota a planta inteira. Se quiser cotar só um trecho, selecione as paredes antes de executar.</div></details><details><summary>Preciso saber Dynamo?</summary><div class="a">Não. A rotina roda pelo Dynamo Player. Você abre a planta e aperta play.</div></details><details><summary>Funciona em quais versões?</summary><div class="a">A rotina foi escrita para Revit 2024, 2025 e 2026 e testada em ambiente real no 2025 e no 2026.</div></details><details><summary>Preciso instalar pacotes?</summary><div class="a">Não. A rotina foi preparada para rodar sem pacote externo.</div></details><details><summary>O que ela cota?</summary><div class="a">Cotas externas em linhas escalonadas e cotas internas dos ambientes. Portas e janelas são cotadas pelas extremidades do vão.</div></details><details><summary>Funciona com parede fora de esquadro?</summary><div class="a">A rotina foi desenhada para plantas ortogonais. Em trechos fora de esquadro ou geometrias especiais, confira o resultado e complete manualmente quando necessário. Parede curva não entra na cotagem automática.</div></details><details><summary>Como recebo?</summary><div class="a">Pela Hotmart após a confirmação da compra, com acesso vitalício ao produto adquirido.</div></details><details><summary>E se não funcionar?</summary><div class="a">Você tem 7 dias de garantia pela Hotmart e suporte para diagnóstico pelo relatório gerado na execução.</div></details></div></div></section><section class="support"><div class="wrap"><h2 style="font-size:28px">Deu erro ou ficou com dúvida?</h2><a href="https://wa.me/5511988114901">WhatsApp: (11) 98811-4901</a><p class="lede" style="margin-top:12px">Se a rotina der erro, envie o conteúdo do RESULTADO exibido no Dynamo Player para facilitar o diagnóstico.</p></div></section><footer class="legal"><div class="wrap"><a href="mailto:suporte_labtech@outlook.com">suporte_labtech@outlook.com</a><br>CNPJ 38.267.341/0001-09<br>Avenida Paulista, 1636 — Bela Vista, São Paulo/SP, 01310-200<br><a href="termos.html">Termos de Uso</a> · <a href="privacidade.html">Política de Privacidade</a></div></footer></body></html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AutoCotas — cotagem automática de plantas no Revit</title>
+<meta name="description" content="Abra a planta e aperte play. A rotina cota a planta inteira no Revit, externas e internas, pelo Dynamo Player.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --oxblood:#4F1118; --oxblood-lo:#3A0C12;
+  --paper:#FAF8F6; --paper-2:#F2EDEA;
+  --ink:#23191A; --muted:#6B5F5B;
+  --rule:#D8D0CB; --dim:#9B2C2C;
+  --white:#fff;
+  --wrap:1080px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
+  font-size:17px; line-height:1.6; font-variant-numeric:tabular-nums;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%; height:auto; display:block}
+a{color:inherit}
+.wrap{max-width:var(--wrap); margin:0 auto; padding:0 24px}
+.narrow{max-width:720px}
+
+h1,h2,h3{margin:0; font-weight:600; letter-spacing:-.02em; line-height:1.15}
+h1{font-size:clamp(32px,5.2vw,52px); font-weight:700; letter-spacing:-.03em}
+h2{font-size:clamp(26px,3.6vw,38px)}
+h3{font-size:20px; letter-spacing:-.01em}
+p{margin:0 0 1em}
+p:last-child{margin-bottom:0}
+
+/* linha de cota — único ornamento da página */
+.dim{position:relative;height:1px;background:var(--rule);max-width:var(--wrap);margin:0 auto}
+.dim::before,.dim::after{content:"";position:absolute;top:-7px;width:1.5px;height:15px;background:var(--dim);transform:rotate(45deg)}
+.dim::before{left:0}.dim::after{right:0}
+
+section{padding:88px 0}
+section.tight{padding:64px 0}
+.lede{font-size:19px;color:var(--muted);max-width:56ch}
+
+/* ---------- hero ---------- */
+.hero{background:var(--oxblood);color:#F6EFEC;padding:0}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;padding-top:72px;padding-bottom:72px}
+.brandmark{font-weight:700;letter-spacing:-.02em;font-size:19px;padding:28px 0 0}
+.brandmark span{color:#D9A9A2;font-weight:400}
+.hero h1{color:#fff}
+.hero .sub{margin-top:20px;font-size:19px;color:#E3C9C4;max-width:46ch}
+.hero ul{list-style:none;margin:28px 0 0;padding:0}
+.hero li{position:relative;padding-left:26px;margin-bottom:11px;color:#F0E1DE}
+.hero li::before{content:"";position:absolute;left:0;top:.62em;width:13px;height:1.5px;background:#C98077}
+.cta{
+  display:inline-block;margin-top:32px;background:#fff;color:var(--oxblood);
+  font-weight:600;font-size:18px;text-decoration:none;padding:17px 34px;border-radius:2px;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.cta:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(0,0,0,.28)}
+.quote{margin-top:26px;border-left:2px solid #C98077;padding-left:18px;max-width:44ch}
+.quote p{font-size:16.5px;color:#EFDCD8;font-style:italic}
+.quote cite{display:block;margin-top:7px;font-style:normal;font-size:14.5px;color:#C29089;letter-spacing:.01em}
+.shot{background:#fff;padding:14px;border-radius:2px;box-shadow:0 18px 50px rgba(0,0,0,.3)}
+
+/* ---------- número medido ---------- */
+.measure{text-align:center;padding:8px 0 4px}
+.measure .n{font-size:clamp(56px,10vw,104px);font-weight:700;letter-spacing:-.045em;line-height:1;color:var(--oxblood)}
+.measure .n small{font-size:.32em;font-weight:500;letter-spacing:-.01em;margin-left:.25em;color:var(--ink)}
+.ruler{position:relative;height:1px;background:var(--dim);margin:22px auto 0;max-width:420px}
+.ruler::before,.ruler::after{content:"";position:absolute;top:-9px;width:1.5px;height:19px;background:var(--dim);transform:rotate(45deg)}
+.ruler::before{left:0}.ruler::after{right:0}
+
+/* ---------- listas ---------- */
+.checklist{list-style:none;margin:32px 0 0;padding:0;max-width:60ch}
+.checklist li{position:relative;padding-left:30px;margin-bottom:15px}
+.checklist li::before{content:"";position:absolute;left:0;top:.63em;width:16px;height:1.5px;background:var(--dim)}
+.turn{margin-top:34px;font-size:21px;font-weight:600;letter-spacing:-.015em;max-width:34ch}
+
+/* ---------- passos ---------- */
+.steps{list-style:none;counter-reset:s;margin:36px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.steps li{counter-increment:s;position:relative;padding:22px 22px 22px 0;border-top:1px solid var(--rule)}
+.steps li::before{content:counter(s);display:block;font-size:14px;font-weight:600;color:var(--dim);margin-bottom:9px}
+
+/* ---------- tabela ---------- */
+table{width:100%;border-collapse:collapse;margin-top:34px;font-size:16px}
+th,td{text-align:left;padding:15px 16px;border-bottom:1px solid var(--rule);vertical-align:top}
+thead th{font-size:15px;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--ink)}
+tbody th{font-weight:600;width:22%}
+td.hand{color:var(--muted)}
+td.rot{color:var(--ink);font-weight:500}
+
+/* ---------- entregáveis ---------- */
+.gets{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:44px}
+.get .fig{height:250px;border:1px solid var(--rule);background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:14px}
+.get .fig img{max-height:100%;width:auto;object-fit:contain}
+.get .fig.todo-fig{background:repeating-linear-gradient(45deg,#F6F1EE,#F6F1EE 10px,#F1E9E5 10px,#F1E9E5 20px);color:#8A6E45;font-size:14.5px;font-weight:600;text-align:center;padding:24px}
+.get h3{margin:20px 0 8px}
+.get p{color:var(--muted);font-size:16px}
+
+/* ---------- preço ---------- */
+.price{background:var(--oxblood);color:#F6EFEC}
+.price h2{color:#fff}
+.price .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.price ul{list-style:none;padding:0;margin:26px 0 0}
+.price li{position:relative;padding-left:26px;margin-bottom:11px;color:#F0E1DE}
+.price li::before{content:"";position:absolute;left:0;top:.62em;width:13px;height:1.5px;background:#C98077}
+.tag{font-size:clamp(52px,8vw,78px);font-weight:700;letter-spacing:-.045em;line-height:1;color:#fff}
+.tag sup{font-size:.36em;font-weight:500;vertical-align:.9em;margin-right:.12em;letter-spacing:0}
+.fine{margin-top:16px;font-size:15px;color:#C89A93;line-height:1.55}
+
+/* ---------- autora ---------- */
+.author{display:grid;grid-template-columns:200px 1fr;gap:44px;align-items:start}
+.author img{border-radius:50%}
+
+/* ---------- faq ---------- */
+.faq{margin-top:36px;border-top:1px solid var(--rule)}
+details{border-bottom:1px solid var(--rule)}
+summary{
+  cursor:pointer;list-style:none;padding:19px 40px 19px 0;position:relative;
+  font-weight:500;font-size:17.5px;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{
+  content:"";position:absolute;right:6px;top:50%;width:11px;height:11px;
+  border-right:1.5px solid var(--dim);border-bottom:1.5px solid var(--dim);
+  transform:translateY(-70%) rotate(45deg);transition:transform .2s ease;
+}
+details[open] summary::after{transform:translateY(-30%) rotate(225deg)}
+details .a{padding:0 44px 22px 0;color:var(--muted);max-width:70ch}
+
+/* ---------- suporte / rodapé ---------- */
+.support{background:var(--paper-2)}
+.support .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.wa{font-size:26px;font-weight:600;letter-spacing:-.02em;margin-top:6px;display:inline-block;text-decoration:none}
+footer{padding:52px 0 64px;font-size:15px;color:var(--muted);line-height:1.85}
+footer a{color:var(--muted)}
+.todo,.todo-fig,.draftbar{display:none}
+body.rascunho .todo{display:inline;background:#FFF3CD;color:#6B4E00;padding:2px 7px;border-radius:2px;font-size:.86em;font-weight:600}
+body.rascunho .todo-fig{display:flex}
+body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size:14.5px;line-height:1.6;padding:14px 24px;border-bottom:1px solid #E8D48A}
+.draftbar b{font-weight:700}
+
+:focus-visible{outline:2px solid var(--dim);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+@media (max-width:900px){
+  section{padding:60px 0}
+  .hero .wrap,.price .wrap,.support .wrap{grid-template-columns:1fr;gap:40px}
+  .gets{grid-template-columns:1fr;gap:38px}
+  .steps{grid-template-columns:1fr}
+  .steps li{padding-right:0}
+  .author{grid-template-columns:1fr;gap:26px}
+  .author img{max-width:170px}
+  table{font-size:15px}
+  th,td{padding:13px 10px}
+  tbody th{width:auto}
+}
+</style>
+</head>
+<body>
+
+
+
+<!-- ══ DOBRA 1 · HEADLINE ══ -->
+<header class="hero">
+  <div class="wrap" style="display:block;padding-bottom:0">
+    <div class="brandmark">AutoCotas <span>· automação para Revit</span></div>
+  </div>
+  <div class="wrap">
+    <div>
+      <h1>Abra a planta e aperte&nbsp;play. A rotina cota a planta inteira.</h1>
+      <p class="sub">Um arquivo que você salva uma vez e executa pelo Dynamo Player. Instala e usa hoje — sem abrir o Dynamo.</p>
+      <ul>
+        <li>Cota a planta inteira, ou só as paredes que você selecionar</li>
+        <li>Já cotou antes? Ela completa só o que falta</li>
+        <li>Cotas externas e internas na mesma execução</li>
+      </ul>
+      <a class="cta" href="#checkout-pendente">Quero a rotina pronta</a>
+      <blockquote class="quote">
+        <p>“Pra função delas, que são cotas mais em comum que todo projeto precisa, funcionaram muito bem.”</p>
+        <cite>Pedro Gonzaga, arquiteto</cite>
+      </blockquote>
+    </div>
+    <div class="shot"><img src="imagem-01.jpg" alt="Planta baixa cotada automaticamente no Revit"></div>
+  </div>
+</header>
+
+<!-- ══ DOBRA 2 · PROVA ══ -->
+<section>
+  <div class="wrap narrow" style="text-align:center">
+    <h2>Cerca de 30 segundos, do play até a planta cotada</h2>
+    <div class="measure">
+      <div class="n" style="margin-top:38px">30<small>segundos</small></div>
+      <div class="ruler"></div>
+    </div>
+    <p class="lede" style="margin:30px auto 0">Abri uma planta arquitetônica sem cota nenhuma, apertei play e cronometrei até o RESULTADO aparecer. Sem selecionar nada, sem configurar nada.</p>
+  </div>
+  <div class="wrap" style="margin-top:52px">
+    <img src="imagem-02.jpg" alt="A mesma planta antes e depois de executar o AutoCotas">
+  </div>
+</section>
+
+<div class="dim"></div>
+
+<!-- ══ DOBRA 3 · PROVA VISUAL ══ -->
+<section>
+  <div class="wrap">
+    <h2>Como fica na prática</h2>
+    <p class="lede" style="margin-top:16px">Da planta limpa até a planta cotada, com as três linhas escalonadas e o afastamento que você definiu. Porta e janela saem cotadas pelas extremidades do vão — não pelo eixo.</p>
+    <picture style="display:block;margin-top:40px">
+      <source media="(max-width:760px)" srcset="imagem-03.jpg">
+      <img src="imagem-04.jpg" alt="Sequência de uso: planta sem cota, rotina no Dynamo Player, opções, planta cotada e closes das cotas">
+    </picture>
+  </div>
+</section>
+
+<div class="dim"></div>
+
+<!-- ══ DOBRA 4 · IDENTIFICAÇÃO ══ -->
+<section>
+  <div class="wrap">
+    <h2 style="max-width:20ch">Se você abre a planta e já sabe que a tarde vai embora clicando</h2>
+    <ul class="checklist">
+      <li>Você clica na face de uma parede, clica na próxima, posiciona a linha. E repete até a planta acabar.</li>
+      <li>Termina o pavimento tipo e lembra que ainda tem térreo, cobertura, subsolo.</li>
+      <li>Cota a fachada, depois volta pro miolo da planta: banheiro, suíte, dormitório, circulação. Cada ambiente na mão.</li>
+      <li>Já abriu o Dynamo uma vez, viu a tela cheia de nó e fechou.</li>
+      <li>Entrou uma janela nova no meio da revisão e o trecho precisa ser recotado.</li>
+      <li>O dia acabou, a documentação andou, e você não tomou nenhuma decisão de projeto.</li>
+    </ul>
+    <p class="turn">Não é lentidão sua. É execução repetitiva que não precisava passar pela sua mão.</p>
+  </div>
+</section>
+
+<div class="dim"></div>
+
+<!-- ══ DOBRA 5 · JORNADA ══ -->
+<section>
+  <div class="wrap">
+    <h2>É simples assim</h2>
+    <ol class="steps">
+      <li>Você instala a rotina no Dynamo Player — uma vez só</li>
+      <li>Abre a planta</li>
+      <li>Aperta play</li>
+      <li>Confere as cotas</li>
+    </ol>
+    <p style="margin-top:30px;color:var(--muted)">Se quiser cotar só um trecho, seleciona as paredes antes. O resto é igual.</p>
+  </div>
+</section>
+
+<div class="dim"></div>
+
+<!-- ══ DOBRA 6 · PRA QUEM É ══ -->
+<section>
+  <div class="wrap">
+    <h2>Pra quem esse produto foi feito</h2>
+    <ul class="checklist">
+      <li>Arquiteto que fecha o pacote de documentação sozinho e cota planta por planta</li>
+      <li>Engenheiro que produz prancha executiva e perde a reta final da entrega cotando</li>
+      <li>Projetista de escritório pequeno, sem ninguém pra delegar a parte braçal</li>
+      <li>Quem já ouviu que Dynamo resolve isso e não quer parar pra aprender</li>
+      <li>Quem entrega vários pavimentos do mesmo projeto e refaz a mesma cotagem em cada um</li>
+      <li>Quem revisa projeto que muda toda semana e precisa recotar trecho alterado</li>
+    </ul>
+  </div>
+</section>
+
+<div class="dim"></div>
+
+<!-- ══ DOBRA 7 · PROVA TÉCNICA ══ -->
+<section>
+  <div class="wrap">
+    <h2>Cotando na mão × com a rotina</h2>
+    <table>
+      <thead><tr><th></th><th>Na mão</th><th>Com a rotina</th></tr></thead>
+      <tbody>
+        <tr><th>Começar</th><td class="hand">Ativa a ferramenta, escolhe a face, posiciona a linha</td><td class="rot">Abre a planta e aperta play</td></tr>
+        <tr><th>Vãos</th><td class="hand">Clica extremidade por extremidade, porta por porta</td><td class="rot">Todas as portas e janelas na mesma passada</td></tr>
+        <tr><th>Miolo da planta</th><td class="hand">Ambiente por ambiente</td><td class="rot">Junto com as externas, na mesma execução</td></tr>
+        <tr><th>Padrão</th><td class="hand">Depende de você lembrar o critério a cada planta</td><td class="rot">Mesmo critério em todas as plantas</td></tr>
+        <tr><th>Revisão</th><td class="hand">Refaz o trecho na mão</td><td class="rot">Executa de novo e ela completa o que falta</td></tr>
+      </tbody>
+    </table>
+    <p class="turn">A diferença não é o resultado. É o caminho até ele.</p>
+  </div>
+</section>
+
+<div class="dim"></div>
+
+<!-- ══ DOBRA 8 · REFORÇO ══ -->
+<section>
+  <div class="wrap">
+    <h2>Apagou uma cota que ficou ruim? Executa de novo.</h2>
+    <div class="lede" style="margin-top:18px">
+      <p>Ela reconhece as cotas que criou e refaz só o que está faltando.</p>
+      <p>Entrou uma janela nova na revisão? Mesma coisa: executa e ela completa o trecho.</p>
+      <p>E a cota sai no estilo que já está no seu template. Não vem com padrão próprio.</p>
+    </div>
+    <img src="imagem-05.jpg" alt="Planta cotada, cota apagada e cota refeita após nova execução" width="1450" height="513" style="margin-top:40px">
+  </div>
+</section>
+
+<div class="dim"></div>
+
+<!-- ══ DOBRA 9 · O QUE VOCÊ RECEBE ══ -->
+<section>
+  <div class="wrap">
+    <h2>O que você leva</h2>
+    <div class="gets">
+      <div class="get">
+        <div class="fig"><img src="imagem-06.jpg" alt="A rotina AutoCotas listada no Reprodutor do Dynamo"></div>
+        <h3>A automação pronta pra executar</h3>
+        <p>Cotas externas e internas na mesma execução. Você instala e roda no mesmo dia — a rotina aparece na lista do Dynamo Player e você aperta play.</p>
+      </div>
+      <div class="get">
+        <div class="fig"><img src="imagem-07.jpg" alt="Capa do guia de instalação e uso"></div>
+        <h3>PDF de instalação e uso</h3>
+        <p>Curto e direto. Onde salvar o arquivo, como apontar a pasta no Player, como fazer a primeira execução. Você lê e usa.</p>
+      </div>
+      <div class="get">
+        <div class="fig"><img src="imagem-08.jpg" alt="O projeto exemplo aberto no Revit"></div>
+        <h3>Arquivo de projeto exemplo</h3>
+        <p>Você roda a rotina em um projeto pronto antes de usar no do cliente. Vê como funciona sem risco nenhum — e depois usa em qualquer projeto seu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DOBRA 10 · PREÇO ══ -->
+<section class="price">
+  <div class="wrap">
+    <div>
+      <h2>Cote a próxima planta com a rotina rodando</h2>
+      <ul>
+        <li>A automação pronta pra executar no Dynamo Player</li>
+        <li>PDF de instalação e uso</li>
+        <li>Arquivo de projeto exemplo</li>
+      </ul>
+    </div>
+    <div>
+      <div class="tag"><sup>R$</sup>67</div>
+      <p class="fine" style="margin-top:10px">ou parcelado no cartão</p>
+      <a class="cta" href="#checkout-pendente">Quero a rotina pronta</a>
+      <p class="fine">Acesso vitalício, com as versões novas inclusas. Compra única, sem assinatura.<br>Garantia de 7 dias pela Hotmart.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DOBRA 11 · QUEM É ══ -->
+<section>
+  <div class="wrap narrow author">
+    <img src="imagem-09.jpg" alt="Desiree Fontes" width="560" height="560">
+    <div>
+      <h2 style="font-size:28px">Desiree Fontes</h2>
+      <p style="margin-top:6px;color:var(--muted)">Arquiteta. Documentação executiva em Revit e automação pra escritório.</p>
+      <ul class="checklist" style="margin-top:22px">
+        <li>10 anos trabalhando com Revit e documentação de projeto, incluindo executivo</li>
+        <li>Desenvolve automações e ferramentas pra tirar tarefa repetitiva da produção de prancha</li>
+        <li>O AutoCotas nasceu do próprio trabalho: foi cotando planta na mão que a rotina apareceu</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="dim"></div>
+
+<!-- ══ DOBRA 12 · FAQ ══ -->
+<section>
+  <div class="wrap narrow">
+    <h2>Perguntas frequentes</h2>
+    <div class="faq">
+      <details open><summary>Onde a rotina funciona?</summary><div class="a">Em planta de piso. Ela cota paredes, vãos e ambientes na vista ativa. Não trabalha em corte, elevação ou 3D.</div></details>
+      <details><summary>Preciso selecionar as paredes?</summary><div class="a">Não. Sem seleção, a rotina cota a planta inteira. Se quiser cotar só um trecho, seleciona as paredes antes de executar.</div></details>
+      <details><summary>Preciso saber Dynamo pra usar?</summary><div class="a">Não. A rotina roda pelo Dynamo Player, que já vem com o Revit. Você abre a planta e aperta play — não precisa abrir o Dynamo.</div></details>
+      <details><summary>Funciona na minha versão do Revit?</summary><div class="a">A rotina foi escrita para o Revit 2024, 2025 e 2026, e foi testada em ambiente real no 2025 e no 2026. Se não rodar na sua, você tem 7 dias de garantia pela Hotmart — e antes disso me chama no WhatsApp: a rotina gera um relatório de erro que eu leio e corrijo.</div></details>
+      <details><summary>Preciso instalar mais alguma coisa?</summary><div class="a">Não. O Dynamo Player já vem com o Revit e roda a rotina direto, sem pacote externo.</div></details>
+      <details><summary>A rotina cota o quê exatamente?</summary><div class="a">Cotas externas em três linhas — vãos com distâncias e espessuras, paredes com espessuras, dimensão total — e cotas internas dos ambientes. Portas e janelas saem cotadas pelas extremidades do vão. Você liga ou desliga cada opção antes de executar.</div></details>
+      <details><summary>A rotina cota só parede?</summary><div class="a">Sim. Pilar, shaft e mureta não entram — esses você cota na mão.</div></details>
+      <details><summary>Funciona com parede fora de esquadro?</summary><div class="a">A rotina foi desenhada para plantas ortogonais. Em trechos fora de esquadro ou com geometrias especiais, confira o resultado e complete manualmente quando necessário. Parede curva não entra na cotagem automática.</div></details>
+      <details><summary>As cotas saem no padrão do meu escritório?</summary><div class="a">Sim. A rotina usa o estilo de cota que já está no seu template. Se quiser trocar depois, é a troca de estilo nativa do Revit.</div></details>
+      <details><summary>Como fica a planta depois?</summary><div class="a">As linhas saem escalonadas a partir do afastamento que você define — o padrão é 800 mm. Não sai cota em cima do desenho. Se quiser mais folga, aumenta o afastamento e executa de novo.</div></details>
+      <details><summary>E se o projeto mudar depois de cotado?</summary><div class="a">Executa de novo. A rotina reconhece as cotas que ela mesma criou e refaz só o que está faltando.</div></details>
+      <details><summary>Mover uma parede desfaz a cota?</summary><div class="a">Não. A cota fica associada aos elementos e o valor atualiza sozinho, comportamento nativo do Revit. A linha de cota continua onde foi desenhada, então em mudança grande vale conferir o afastamento. Trocar o tipo da parede ou editar o perfil pode invalidar a cota — também é comportamento do próprio Revit.</div></details>
+      <details><summary>A cota da porta saiu no vão de alvenaria em vez do batente.</summary><div class="a">Acontece quando a família da esquadria não expõe o plano de referência central. Nesse caso a rotina cota pelas jambas. Se precisar da cota no batente, verifique a família usada no projeto.</div></details>
+      <details><summary>Inseri várias aberturas de uma vez e a cota duplicou.</summary><div class="a">Ao inserir três ou mais aberturas no mesmo trecho de uma vez, as referências mudam demais e a rotina cria uma linha nova em vez de completar a existente. Apague a linha antiga daquele trecho e execute de novo.</div></details>
+      <details><summary>Executei de novo e a cota que eu tinha ajustado sumiu.</summary><div class="a">A opção “Substituir cotas existentes” refaz as cotas do AutoCotas naquele trecho, inclusive as que você reposicionou. Deixe desligada pra preservar ajustes manuais — ela já vem desligada.</div></details>
+      <details><summary>Como recebo o produto?</summary><div class="a">Pela Hotmart, logo depois da compra. Acesso vitalício, sem assinatura.</div></details>
+      <details><summary>Quando sair uma versão nova do Revit, eu compro de novo?</summary><div class="a">Não. O acesso é vitalício e inclui as versões novas da rotina.</div></details>
+      <details><summary>Serve pra quem tá começando no Revit?</summary><div class="a">Serve pra quem já produz planta e cota manualmente. Se você sabe abrir uma planta, sabe usar a rotina.</div></details>
+      <details><summary>E se não funcionar?</summary><div class="a">Você tem 7 dias de garantia pela Hotmart. Se preferir, me chama no WhatsApp antes — na maioria dos casos o relatório de erro que a rotina gera resolve na hora.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DOBRA 13 · SUPORTE ══ -->
+<section class="support tight">
+  <div class="wrap">
+    <div>
+      <h2 style="font-size:28px">Deu erro ou ficou com dúvida? Chama no WhatsApp.</h2>
+      <a class="wa" href="https://wa.me/5511988114901">(11) 98811-4901</a>
+      <p style="margin-top:16px;color:var(--muted);max-width:52ch">Se a rotina der erro, cola aqui o conteúdo do RESULTADO que aparece no Dynamo Player. Ele traz o código da falha e onde parou — com isso eu resolvo direto.</p>
+    </div>
+    <img src="imagem-10.jpg" alt="Campo RESULTADO do Dynamo Player com o relatório da execução" style="border:1px solid var(--rule);background:#fff">
+  </div>
+</section>
+
+<!-- ══ DOBRA 14 · RODAPÉ ══ -->
+<footer>
+  <div class="wrap">
+    <div class="dim" style="margin-bottom:36px"></div>
+    <a href="mailto:suporte_labtech@outlook.com">suporte_labtech@outlook.com</a><br>
+    CNPJ 38.267.341/0001-09<br>
+    Avenida Paulista, 1636 — Bela Vista, São Paulo/SP, 01310-200<br>
+    <a href="termos.html">Termos de Uso</a> · <a href="privacidade.html">Política de Privacidade</a>
+  </div>
+</footer>
+
+<script>document.querySelectorAll('a[href="#checkout-pendente"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();alert('Checkout em configuração.')}));</script>
+</body>
+</html>
