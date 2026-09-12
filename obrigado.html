@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compra concluída — LabTech</title>
+<meta name="description" content="Confirmação de compra dos produtos LabTech.">
+
+<style>
+:root{
+  --oxblood:#4F1118;
+  --paper:#FAF8F6;
+  --paper-2:#F2EDEA;
+  --ink:#23191A;
+  --muted:#6B5F5B;
+  --rule:#D8D0CB;
+  --white:#FFFFFF;
+  --accent:#9B2C2C;
+  --wrap:760px;
+}
+
+*{box-sizing:border-box}
+
+html{-webkit-text-size-adjust:100%}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+main{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding:56px 20px;
+}
+
+.card{
+  width:min(var(--wrap),100%);
+  margin:0 auto;
+  background:var(--white);
+  border:1px solid var(--rule);
+  padding:56px;
+}
+
+.eyebrow{
+  display:block;
+  margin-bottom:14px;
+  color:var(--accent);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+h1{
+  margin:0;
+  font-size:clamp(36px,6vw,58px);
+  line-height:1.05;
+  letter-spacing:-.035em;
+  color:var(--oxblood);
+}
+
+.lead{
+  margin:24px 0 0;
+  font-size:20px;
+  max-width:31ch;
+}
+
+.divider{
+  height:1px;
+  background:var(--rule);
+  margin:36px 0;
+}
+
+.info{
+  color:var(--muted);
+}
+
+.info strong{
+  color:var(--ink);
+}
+
+.steps{
+  list-style:none;
+  padding:0;
+  margin:28px 0 0;
+}
+
+.steps li{
+  position:relative;
+  padding-left:28px;
+  margin:14px 0;
+}
+
+.steps li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.72em;
+  width:14px;
+  height:2px;
+  background:var(--accent);
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:36px;
+}
+
+.btn{
+  display:inline-block;
+  padding:14px 20px;
+  border-radius:3px;
+  text-decoration:none;
+  font-weight:700;
+  font-size:15px;
+}
+
+.btn-primary{
+  background:var(--oxblood);
+  color:var(--white);
+}
+
+.btn-secondary{
+  border:1px solid var(--rule);
+  color:var(--ink);
+  background:var(--paper);
+}
+
+.small{
+  margin-top:26px;
+  font-size:14px;
+  color:var(--muted);
+}
+
+.small a{
+  color:var(--oxblood);
+}
+
+@media(max-width:640px){
+  main{padding:24px 14px}
+  .card{padding:34px 24px}
+  .actions{flex-direction:column}
+  .btn{text-align:center}
+}
+</style>
+</head>
+
+<body>
+<main>
+  <section class="card">
+    <span class="eyebrow">COMPRA CONCLUÍDA</span>
+
+    <h1>Tudo certo.</h1>
+
+    <p class="lead">
+      Sua compra foi finalizada e o acesso será liberado pela Hotmart.
+    </p>
+
+    <div class="divider"></div>
+
+    <div class="info">
+      <p>
+        Você receberá os dados de acesso no e-mail usado na compra.
+        Os produtos liberados serão exatamente os que você confirmou no checkout e no funil.
+      </p>
+
+      <ul class="steps">
+        <li>Confira seu e-mail e a área de compras da Hotmart.</li>
+        <li>Baixe os arquivos e leia o guia antes da primeira execução.</li>
+        <li>Teste primeiro no projeto exemplo antes de usar em trabalho real.</li>
+      </ul>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-primary"
+         href="https://www.instagram.com/desiree.fontes/"
+         target="_blank"
+         rel="noopener noreferrer">
+        Acompanhar no Instagram
+      </a>
+
+      <a class="btn btn-secondary"
+         href="mailto:suporte_labtech@outlook.com">
+        Falar com o suporte
+      </a>
+    </div>
+
+    <p class="small">
+      Novidades, atualizações das automações e próximos produtos são publicados em
+      <a href="https://www.instagram.com/desiree.fontes/"
+         target="_blank"
+         rel="noopener noreferrer">@desiree.fontes</a>.
+    </p>
+  </section>
+</main>
+</body>
+</html>
