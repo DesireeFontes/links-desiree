@@ -20,7 +20,7 @@
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  margin:0; background:var(--paper); color:var(--ink);
+  margin:0; background:var(--paper ); color:var(--ink);
   font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
   font-size:17px; line-height:1.6; font-variant-numeric:tabular-nums;
   -webkit-font-smoothing:antialiased;
@@ -171,7 +171,7 @@ body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size
   n.queue=[];t=b.createElement(e);t.async=!0;
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
+  'https://connect.facebook.net/en_US/fbevents.js' );
   fbq('init', '953013134517771');
   fbq('track', 'PageView');
 </script>
@@ -182,8 +182,6 @@ body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size
   
 </head>
 <body>
-
-
 
 <!-- ══ DOBRA 1 · HEADLINE ══ -->
 <header class="hero">
@@ -232,7 +230,7 @@ body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size
     <h2>Como fica na prática</h2>
     <p class="lede" style="margin-top:16px">Da planta limpa até a planta cotada, com as três linhas escalonadas e o afastamento que você definiu. Porta e janela saem cotadas pelas extremidades do vão — não pelo eixo.</p>
     <picture style="display:block;margin-top:40px">
-      <source media="(max-width:760px)" srcset="imagem-03.jpg">
+      <source media="(max-width:760px )" srcset="imagem-03.jpg">
       <img src="imagem-04.jpg" alt="Sequência de uso: planta sem cota, rotina no Dynamo Player, opções, planta cotada e closes das cotas">
     </picture>
   </div>
@@ -341,11 +339,6 @@ body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size
         <h3>PDF de instalação e uso</h3>
         <p>Curto e direto. Onde salvar o arquivo, como apontar a pasta no Player, como fazer a primeira execução. Você lê e usa.</p>
       </div>
-      <div class="get">
-        <div class="fig"><img src="imagem-08.jpg" alt="O projeto exemplo aberto no Revit"></div>
-        <h3>Arquivo de projeto exemplo</h3>
-        <p>Você roda a rotina em um projeto pronto antes de usar no do cliente. Vê como funciona sem risco nenhum — e depois usa em qualquer projeto seu.</p>
-      </div>
     </div>
   </div>
 </section>
@@ -358,14 +351,14 @@ body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size
       <ul>
         <li>A automação pronta pra executar no Dynamo Player</li>
         <li>PDF de instalação e uso</li>
-        <li>Arquivo de projeto exemplo</li>
       </ul>
     </div>
     <div>
       <div class="tag"><sup>R$</sup>67</div>
       <p class="fine" style="margin-top:10px">ou parcelado no cartão</p>
       <a class="cta" href="https://pay.hotmart.com/L107438798Q?off=w9sex5zc&checkoutMode=10" target="_blank" rel="noopener noreferrer">Quero a rotina pronta</a>
-      <p class="fine">Acesso vitalício, com as versões novas inclusas. Compra única, sem assinatura.<br>Garantia de 7 dias pela Hotmart.</p>
+      <p class="fine">Acesso vitalício, com as versões novas inclusas. Compra única, sem assinatura.  
+Garantia de 7 dias pela Hotmart.</p>
     </div>
   </div>
 </section>
@@ -376,7 +369,7 @@ body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size
     <img src="imagem-09.jpg" alt="Desiree Fontes" width="560" height="560">
     <div>
       <h2 style="font-size:28px">Desiree Fontes</h2>
-      <p style="margin-top:6px;color:var(--muted)">Arquiteta. Documentação executiva em Revit e automação pra escritório.</p>
+      <p style="margin-top:6px;color:var(--muted )">Arquiteta. Documentação executiva em Revit e automação pra escritório.</p>
       <ul class="checklist" style="margin-top:22px">
         <li>10 anos trabalhando com Revit e documentação de projeto, incluindo executivo</li>
         <li>Desenvolve automações e ferramentas pra tirar tarefa repetitiva da produção de prancha</li>
@@ -421,7 +414,7 @@ body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size
   <div class="wrap">
     <div>
       <h2 style="font-size:28px">Deu erro ou ficou com dúvida? Chama no WhatsApp.</h2>
-      <a class="wa" href="https://wa.me/5511988114901">(11) 98811-4901</a>
+      <a class="wa" href="https://wa.me/5511988114901">(11 ) 98811-4901</a>
       <p style="margin-top:16px;color:var(--muted);max-width:52ch">Se a rotina der erro, cola aqui o conteúdo do RESULTADO que aparece no Dynamo Player. Ele traz o código da falha e onde parou — com isso eu resolvo direto.</p>
     </div>
     <img src="imagem-10.jpg" alt="Campo RESULTADO do Dynamo Player com o relatório da execução" style="border:1px solid var(--rule);background:#fff">
@@ -432,9 +425,12 @@ body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size
 <footer>
   <div class="wrap">
     <div class="dim" style="margin-bottom:36px"></div>
-    <a href="mailto:suporte_labtech@outlook.com">suporte_labtech@outlook.com</a><br>
-    CNPJ 38.267.341/0001-09<br>
-    Avenida Paulista, 1636 — Bela Vista, São Paulo/SP, 01310-200<br>
+    <a href="mailto:suporte_labtech@outlook.com">suporte_labtech@outlook.com</a>  
+
+    CNPJ 38.267.341/0001-09  
+
+    Avenida Paulista, 1636 — Bela Vista, São Paulo/SP, 01310-200  
+
     <a href="termos.html">Termos de Uso</a> · <a href="privacidade.html">Política de Privacidade</a>
   </div>
 </footer>
