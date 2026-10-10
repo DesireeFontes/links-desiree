@@ -126,17 +126,13 @@
 
   <section class="links wrap" aria-label="Links">
     <h2>Também por aqui</h2>
-    <a class="link" id="link-sprint" target="_blank" rel="noopener">
+    <a class="link" id="link-sprint" href="#diagnostico">
       <strong>Sprint Revit</strong>
-      <span>14 dias para ajustar o processo do seu projeto real</span>
+      <span>14 dias no seu projeto real. Comece pelo diagnóstico</span>
     </a>
     <a class="link" id="link-ferramentas" target="_blank" rel="noopener">
       <strong>Ferramentas prontas para o Revit</strong>
       <span>Cotas, tags e revisão de pranchas sem fazer na mão</span>
-    </a>
-    <a class="link" id="link-contato" target="_blank" rel="noopener">
-      <strong>Falar comigo no WhatsApp</strong>
-      <span>Dúvidas sobre o seu processo ou sobre as ferramentas</span>
     </a>
   </section>
   <footer class="rodape wrap">@desiree.fontes</footer>
@@ -218,8 +214,6 @@ const $ = id => document.getElementById(id);
 const wa = msg => 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(msg);
 
 /* links da bio */
-$('link-sprint').href = wa('Oi, Desiree! Vi o seu perfil e quero saber mais sobre o Sprint Revit.');
-$('link-contato').href = wa('Oi, Desiree! Vim pelo seu perfil e tenho uma dúvida.');
 if (CONFIG.ferramentasUrl) $('link-ferramentas').href = CONFIG.ferramentasUrl; else $('link-ferramentas').remove();
 
 function mostrar(tela, foco){
@@ -314,6 +308,7 @@ function resultado(){
 }
 
 $('comecar').onclick = ()=>{ atual=0; renderPergunta(); mostrar('quiz','pergunta'); };
+$('link-sprint').onclick = (e)=>{ e.preventDefault(); $('comecar').click(); };
 $('voltar').onclick = ()=>{ if(atual===0) mostrar('inicio'); else { atual--; renderPergunta(); } };
 $('refazer').onclick = ()=>{ for(const k in respostas) delete respostas[k]; atual=0; renderPergunta(); mostrar('quiz','pergunta'); };
 </script>
