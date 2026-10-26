@@ -130,10 +130,7 @@
       <strong>Sprint Revit</strong>
       <span>14 dias no seu projeto real. Comece pelo diagnóstico</span>
     </a>
-    <a class="link" id="link-ferramentas" target="_blank" rel="noopener">
-      <strong>Ferramentas prontas para o Revit</strong>
-      <span>Cotas, tags e revisão de pranchas sem fazer na mão</span>
-    </a>
+    <!-- Ferramentas prontas: escondido por enquanto (26/10), foco no Sprint -->
   </section>
   <footer class="rodape wrap">@desiree.fontes</footer>
 </main>
@@ -214,7 +211,7 @@ const $ = id => document.getElementById(id);
 const wa = msg => 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(msg);
 
 /* links da bio */
-if (CONFIG.ferramentasUrl) $('link-ferramentas').href = CONFIG.ferramentasUrl; else $('link-ferramentas').remove();
+// link-ferramentas escondido por enquanto (26/10)
 
 function mostrar(tela, foco){
   document.querySelectorAll('.tela').forEach(t=>t.classList.toggle('ativa', t.id===tela));
