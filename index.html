@@ -277,14 +277,11 @@ function resultado(){
     titulo='Tem bastante tempo para recuperar no seu processo.';
     corpo='Pelo que você respondeu, o retrabalho já pesa na sua rotina, principalmente em '+dorMin+'. É exatamente esse tipo de gargalo que eu investigo e ajusto no Sprint Revit, dentro do projeto que você já está desenvolvendo.';
     botoes=[['Conversar sobre o Sprint no WhatsApp', wa(msgWa('Quero conversar sobre o Sprint Revit.')),'principal']];
-    if (CONFIG.ferramentasUrl) botoes.push(['Ver as ferramentas prontas', CONFIG.ferramentasUrl,'linha']);
   } else if (score>=35){
     faixa='Gargalos pontuais';
     titulo='Seu processo funciona, mas tem pontos que tomam tempo sem necessidade.';
-    corpo='O que mais aparece nas suas respostas é '+dorMin+'. Uma ferramenta pronta pode resolver parte disso. Se você quiser olhar o processo inteiro, o Sprint Revit é o caminho.';
-    botoes=[];
-    if (CONFIG.ferramentasUrl) botoes.push(['Ver as ferramentas prontas', CONFIG.ferramentasUrl,'principal']);
-    botoes.push(['Conversar sobre o Sprint no WhatsApp', wa(msgWa('Quero entender se o Sprint Revit faz sentido para mim.')), botoes.length?'linha':'principal']);
+    corpo='O que mais aparece nas suas respostas é '+dorMin+'. Dá para resolver isso sem refazer o seu processo inteiro: no Sprint Revit eu acho o gargalo e implemento a solução com você, no seu projeto real.';
+    botoes=[['Conversar sobre o Sprint no WhatsApp', wa(msgWa('Quero entender se o Sprint Revit faz sentido para mim.')),'principal']];
   } else {
     faixa='Processo sob controle';
     titulo='Você já trabalha de um jeito organizado.';
