@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Desiree Fontes | Diagnóstico Revit</title>
-<meta name="description" content="Descubra quanto tempo o Revit está tomando de você. Diagnóstico de 8 perguntas com a arquiteta Desiree Fontes.">
+<meta name="description" content="Descubra quanto tempo o Revit está tomando de você. Diagnóstico de 9 perguntas com a arquiteta Desiree Fontes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -118,7 +118,7 @@
         <div><strong>Desiree Fontes</strong><span>Arquiteta. Resolvo gargalos no Revit.</span></div>
       </div>
       <h1>Quanto tempo o Revit está tomando de você?</h1>
-      <p class="sub">Responda 8 perguntas sobre a sua rotina e veja onde está o retrabalho que dá para cortar.</p>
+      <p class="sub">Responda 9 perguntas sobre a sua rotina e veja onde está o retrabalho que dá para cortar.</p>
       <button class="btn btn-principal" id="comecar">Fazer o diagnóstico</button>
       <p class="nota">Cerca de 2 minutos. Sem cadastro.</p>
     </div>
@@ -180,12 +180,13 @@
 const CONFIG = {
   whatsapp: '5511988114901',
   instagram: 'https://www.instagram.com/desiree.fontes/',
+  direct: 'https://ig.me/m/desiree.fontes', // lista do LabTech: a pessoa manda LABTECH no direct
   ferramentasUrl: 'https://desireefontes.github.io/links-desiree/autocotas/' // página das ferramentas. Vazio = link escondido.
 };
 
 /* ===== PERGUNTAS ===== (pontos de 0 a 3; a última não pontua) */
 const PERGUNTAS = [
-  {id:'tempo', resumo:'Ajustes repetidos por semana', texto:'Quanto tempo por semana você gasta em ajustes repetidos, como cotar, etiquetar, renomear e renumerar?',
+  {id:'tempo', resumo:'Ajustes repetidos por semana', texto:'Quanto tempo por semana você gasta em ajustes repetidos, como cotar, tagear, renomear e renumerar?',
    opcoes:[['Menos de 1 hora',0],['De 1 a 3 horas',1],['De 3 a 6 horas',2],['Mais de 6 horas',3]]},
   {id:'voltas', resumo:'Voltas de uma prancha', texto:'Quantas vezes uma prancha volta para correção antes de sair?',
    opcoes:[['Sai de primeira ou volta uma vez',0],['Duas vezes',1],['Três ou quatro vezes',2],['Cinco ou mais',3]]},
@@ -200,7 +201,9 @@ const PERGUNTAS = [
   {id:'projetos', resumo:'Projetos ativos', texto:'Quantos projetos ativos você toca ao mesmo tempo?',
    opcoes:[['Um',0],['Dois ou três',1],['De quatro a seis',2],['Sete ou mais',3]]},
   {id:'dor', resumo:'Maior incômodo', texto:'O que mais te incomoda hoje no Revit?',
-   opcoes:[['Cotar e etiquetar na mão',null],['Conferir e revisar pranchas',null],['Retrabalho a cada alteração',null],['Tabela que não bate com o modelo',null],['Falta de padrão entre os projetos',null]]}
+   opcoes:[['Cotar e tagear na mão',null],['Conferir e revisar pranchas',null],['Retrabalho a cada alteração',null],['Tabela que não bate com o modelo',null],['Falta de padrão entre os projetos',null]]},
+  {id:'caminho', resumo:'Como prefere resolver', texto:'Como você prefere resolver isso?',
+   opcoes:[['Quero que alguém monte pra mim, no meu padrão, e eu só uso',null],['Quero aprender a montar as minhas skills e automações',null]]}
 ];
 const PONTUAVEIS = PERGUNTAS.filter(p=>p.opcoes.some(o=>o[1]!==null));
 const MAX = PONTUAVEIS.reduce((s,p)=>s+Math.max(...p.opcoes.map(o=>o[1])),0);
@@ -284,6 +287,14 @@ function resultado(){
     titulo='Você já trabalha de um jeito organizado.';
     corpo='O ganho agora está nos detalhes, como '+dorMin+': plugins gratuitos e pequenos ajustes resolvem boa parte. Eu mostro vários deles no Instagram.';
     botoes=[['Seguir @desiree.fontes', CONFIG.instagram,'principal'],['Tirar uma dúvida no WhatsApp', wa(msgWa('Tenho uma dúvida sobre o meu processo.')),'linha']];
+  }
+
+  /* quem quer aprender a montar vai para a lista do LabTech (uma palavra só, sem o Sprint) */
+  if (respostas.caminho===1){
+    corpo = 'O que mais aparece nas suas respostas é '+dorMin+'. Como você quer aprender a montar as suas próprias skills e automações, o caminho é o LabTech, que eu estou reconstruindo do zero. Me manda LABTECH no direct que eu te coloco na lista.';
+    botoes = score>=35
+      ? [['Mandar LABTECH no direct', CONFIG.direct,'principal']]
+      : [['Mandar LABTECH no direct', CONFIG.direct,'principal'],['Seguir @desiree.fontes', CONFIG.instagram,'linha']];
   }
 
   $('r-titulo').textContent = titulo;
