@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Projeto + IA: Cotas para Revit</title>
+<meta name="description" content="Você pede na conversa e a IA cota planta, corte, fachada, vista de parede e 3D no seu Revit, nas quatro disciplinas.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --oxblood:#4F1118; --oxblood-lo:#3A0C12;
+  --paper:#FAF8F6; --paper-2:#F2EDEA;
+  --ink:#23191A; --muted:#6B5F5B;
+  --rule:#D8D0CB; --dim:#9B2C2C;
+  --white:#fff;
+  --wrap:1080px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper ); color:var(--ink);
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
+  font-size:17px; line-height:1.6; font-variant-numeric:tabular-nums;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%; height:auto; display:block}
+a{color:inherit}
+.wrap{max-width:var(--wrap); margin:0 auto; padding:0 24px}
+.narrow{max-width:720px}
+
+h1,h2,h3{margin:0; font-weight:600; letter-spacing:-.02em; line-height:1.15}
+h1{font-size:clamp(32px,5.2vw,52px); font-weight:700; letter-spacing:-.03em}
+h2{font-size:clamp(26px,3.6vw,38px)}
+h3{font-size:20px; letter-spacing:-.01em}
+p{margin:0 0 1em}
+p:last-child{margin-bottom:0}
+
+/* linha de cota — único ornamento da página */
+.dim{position:relative;height:1px;background:var(--rule);max-width:var(--wrap);margin:0 auto}
+.dim::before,.dim::after{content:"";position:absolute;top:-7px;width:1.5px;height:15px;background:var(--dim);transform:rotate(45deg)}
+.dim::before{left:0}.dim::after{right:0}
+
+section{padding:88px 0}
+section.tight{padding:64px 0}
+.lede{font-size:19px;color:var(--muted);max-width:56ch}
+
+/* ---------- hero ---------- */
+.hero{background:var(--oxblood);color:#F6EFEC;padding:0}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;padding-top:72px;padding-bottom:72px}
+.brandmark{font-weight:700;letter-spacing:-.02em;font-size:19px;padding:28px 0 0}
+.brandmark span{color:#D9A9A2;font-weight:400}
+.hero h1{color:#fff}
+.hero .sub{margin-top:20px;font-size:19px;color:#E3C9C4;max-width:46ch}
+.hero ul{list-style:none;margin:28px 0 0;padding:0}
+.hero li{position:relative;padding-left:26px;margin-bottom:11px;color:#F0E1DE}
+.hero li::before{content:"";position:absolute;left:0;top:.62em;width:13px;height:1.5px;background:#C98077}
+.cta{
+  display:inline-block;margin-top:32px;background:#fff;color:var(--oxblood);
+  font-weight:600;font-size:18px;text-decoration:none;padding:17px 34px;border-radius:2px;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.cta:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(0,0,0,.28)}
+.quote{margin-top:26px;border-left:2px solid #C98077;padding-left:18px;max-width:44ch}
+.quote p{font-size:16.5px;color:#EFDCD8;font-style:italic}
+.quote cite{display:block;margin-top:7px;font-style:normal;font-size:14.5px;color:#C29089;letter-spacing:.01em}
+.shot{background:#fff;padding:14px;border-radius:2px;box-shadow:0 18px 50px rgba(0,0,0,.3)}
+
+/* ---------- número medido ---------- */
+.measure{text-align:center;padding:8px 0 4px}
+.measure .n{font-size:clamp(56px,10vw,104px);font-weight:700;letter-spacing:-.045em;line-height:1;color:var(--oxblood)}
+.measure .n small{font-size:.32em;font-weight:500;letter-spacing:-.01em;margin-left:.25em;color:var(--ink)}
+.ruler{position:relative;height:1px;background:var(--dim);margin:22px auto 0;max-width:420px}
+.ruler::before,.ruler::after{content:"";position:absolute;top:-9px;width:1.5px;height:19px;background:var(--dim);transform:rotate(45deg)}
+.ruler::before{left:0}.ruler::after{right:0}
+
+/* ---------- listas ---------- */
+.checklist{list-style:none;margin:32px 0 0;padding:0;max-width:60ch}
+.checklist li{position:relative;padding-left:30px;margin-bottom:15px}
+.checklist li::before{content:"";position:absolute;left:0;top:.63em;width:16px;height:1.5px;background:var(--dim)}
+.turn{margin-top:34px;font-size:21px;font-weight:600;letter-spacing:-.015em;max-width:34ch}
+
+/* ---------- passos ---------- */
+.steps{list-style:none;counter-reset:s;margin:36px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.steps li{counter-increment:s;position:relative;padding:22px 22px 22px 0;border-top:1px solid var(--rule)}
+.steps li::before{content:counter(s);display:block;font-size:14px;font-weight:600;color:var(--dim);margin-bottom:9px}
+
+/* ---------- tabela ---------- */
+table{width:100%;border-collapse:collapse;margin-top:34px;font-size:16px}
+th,td{text-align:left;padding:15px 16px;border-bottom:1px solid var(--rule);vertical-align:top}
+thead th{font-size:15px;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--ink)}
+tbody th{font-weight:600;width:22%}
+td.hand{color:var(--muted)}
+td.rot{color:var(--ink);font-weight:500}
+
+/* ---------- entregáveis ---------- */
+.gets{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:44px}
+.get .fig{height:250px;border:1px solid var(--rule);background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:14px}
+.get .fig img{max-height:100%;width:auto;object-fit:contain}
+.get .fig.todo-fig{background:repeating-linear-gradient(45deg,#F6F1EE,#F6F1EE 10px,#F1E9E5 10px,#F1E9E5 20px);color:#8A6E45;font-size:14.5px;font-weight:600;text-align:center;padding:24px}
+.get h3{margin:20px 0 8px}
+.get p{color:var(--muted);font-size:16px}
+
+/* ---------- preço ---------- */
+.price{background:var(--oxblood);color:#F6EFEC}
+.price h2{color:#fff}
+.price .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.price ul{list-style:none;padding:0;margin:26px 0 0}
+.price li{position:relative;padding-left:26px;margin-bottom:11px;color:#F0E1DE}
+.price li::before{content:"";position:absolute;left:0;top:.62em;width:13px;height:1.5px;background:#C98077}
+.tag{font-size:clamp(52px,8vw,78px);font-weight:700;letter-spacing:-.045em;line-height:1;color:#fff}
+.tag sup{font-size:.36em;font-weight:500;vertical-align:.9em;margin-right:.12em;letter-spacing:0}
+.fine{margin-top:16px;font-size:15px;color:#C89A93;line-height:1.55}
+
+/* ---------- autora ---------- */
+.author{display:grid;grid-template-columns:200px 1fr;gap:44px;align-items:start}
+.author img{border-radius:50%}
+
+/* ---------- faq ---------- */
+.faq{margin-top:36px;border-top:1px solid var(--rule)}
+details{border-bottom:1px solid var(--rule)}
+summary{
+  cursor:pointer;list-style:none;padding:19px 40px 19px 0;position:relative;
+  font-weight:500;font-size:17.5px;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{
+  content:"";position:absolute;right:6px;top:50%;width:11px;height:11px;
+  border-right:1.5px solid var(--dim);border-bottom:1.5px solid var(--dim);
+  transform:translateY(-70%) rotate(45deg);transition:transform .2s ease;
+}
+details[open] summary::after{transform:translateY(-30%) rotate(225deg)}
+details .a{padding:0 44px 22px 0;color:var(--muted);max-width:70ch}
+
+/* ---------- suporte / rodapé ---------- */
+.support{background:var(--paper-2)}
+.support .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.wa{font-size:26px;font-weight:600;letter-spacing:-.02em;margin-top:6px;display:inline-block;text-decoration:none}
+footer{padding:52px 0 64px;font-size:15px;color:var(--muted);line-height:1.85}
+footer a{color:var(--muted)}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}.gal figure{margin:0;border:1px solid var(--rule);background:#fff;padding:10px}.gal figcaption{font-size:14.5px;color:var(--muted);margin-top:8px}@media (max-width:900px){.gal{grid-template-columns:1fr}}
+.todo,.todo-fig,.draftbar{display:none}
+body.rascunho .todo{display:inline;background:#FFF3CD;color:#6B4E00;padding:2px 7px;border-radius:2px;font-size:.86em;font-weight:600}
+body.rascunho .todo-fig{display:flex}
+body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size:14.5px;line-height:1.6;padding:14px 24px;border-bottom:1px solid #E8D48A}
+.draftbar b{font-weight:700}
+
+:focus-visible{outline:2px solid var(--dim);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+@media (max-width:900px){
+  section{padding:60px 0}
+  .hero .wrap,.price .wrap,.support .wrap{grid-template-columns:1fr;gap:40px}
+  .gets{grid-template-columns:1fr;gap:38px}
+  .steps{grid-template-columns:1fr}
+  .steps li{padding-right:0}
+  .author{grid-template-columns:1fr;gap:26px}
+  .author img{max-width:170px}
+  table{font-size:15px}
+  th,td{padding:13px 10px}
+  tbody th{width:auto}
+}
+</style>
+
+<!-- Meta Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js' );
+  fbq('init', '953013134517771');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=953013134517771&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+  
+</head>
+<body>
+
+<div class="draftbar"><b>Rascunho para revisar (13/11).</b> Falta: link do checkout da Hotmart, e-mail de suporte, print do Claude conversando e o seu ok nas imagens (a do Mikate é de um projeto seu). Some quando tirar <code>class="rascunho"</code> do body.</div>
+
+<!-- ══ DOBRA 1 · HEADLINE ══ -->
+<header class="hero">
+  <div class="wrap" style="display:block;padding-bottom:0">
+    <div class="brandmark">Projeto + IA <span>· Cotas para Revit</span></div>
+  </div>
+  <div class="wrap">
+    <div>
+      <h1>Você pede a cota na conversa. A IA cota no seu Revit.</h1>
+      <p class="sub">Planta, corte, fachada, vista de parede e 3D de um ambiente. Em arquitetura, estrutura, elétrica e hidrossanitário. Ela mostra o que vai fazer e só cria depois do seu ok.</p>
+      <ul>
+        <li>Cota vista que já tem cota sem repetir o que está lá</li>
+        <li>Entrou janela nova na revisão? Ela completa a corrente</li>
+        <li>Usa o tipo de cota do seu template</li>
+      </ul>
+      <a class="cta" href="#preco">Quero cotar com a IA</a>
+    </div>
+    <div class="shot"><img src="arq-3d-banheiro.jpg" alt="3D de banheiro cotado pela IA no Revit"></div>
+  </div>
+</header>
+
+<!-- ══ DOBRA 2 · IDENTIFICAÇÃO ══ -->
+<section>
+  <div class="wrap">
+    <h2 style="max-width:22ch">Se cotar é a parte da entrega que mais demora</h2>
+    <ul class="checklist">
+      <li>Você termina o modelo e ainda tem a tarde inteira de cota pela frente.</li>
+      <li>Planta pronta, e falta o corte: pé-direito, peitoril, nível de cada pavimento.</li>
+      <li>Na elétrica e na hidro, cada ponto precisa da altura e da distância até a parede.</li>
+      <li>O cliente mudou a janela e você recota o trecho inteiro.</li>
+      <li>Já tentou Dynamo, viu a tela cheia de nó e desistiu.</li>
+    </ul>
+    <p class="turn">Cotar é repetição com regra. E repetição com regra a IA faz.</p>
+  </div>
+</section>
+
+<div class="dim"></div>
+
+<!-- ══ DOBRA 3 · COMO FUNCIONA ══ -->
+<section>
+  <div class="wrap">
+    <h2>Como é usar</h2>
+    <ol class="steps">
+      <li>Você abre a vista no Revit e escreve: "cota a planta do térreo"</li>
+      <li>Ela lê a vista e oferece as opções, numeradas</li>
+      <li>Ela simula e diz o resumo: "vou criar 22 cotas"</li>
+      <li>Você diz ok, e as cotas aparecem. Um Ctrl+Z desfaz tudo</li>
+    </ol>
+    <p style="margin-top:30px;color:var(--muted)">No fim, ela diz o que ficou para cotar à mão. Nada de cota inventada.</p>
+    <p class="todo" style="margin-top:12px">print da conversa no Claude</p>
+  </div>
+</section>
+
+<div class="dim"></div>
+
+<!-- ══ DOBRA 4 · PROVA VISUAL ══ -->
+<section>
+  <div class="wrap">
+    <h2>Nas quatro disciplinas</h2>
+    <p class="lede" style="margin-top:16px">Cada vista tem o que importa nela. Na planta de arquitetura, vãos, paredes, total e nível do piso. No corte, pé-direito, peitoril e níveis. Na estrutura, eixos e locação de pilar. Na elétrica e na hidro, a posição e a altura de cada ponto.</p>
+    <div class="gal">
+      <figure><img src="arq-corte.jpg" alt="Corte de arquitetura cotado"><figcaption>Corte de arquitetura</figcaption></figure>
+      <figure><img src="est-locacao.jpg" alt="Planta de locação de estrutura cotada"><figcaption>Locação de pilares</figcaption></figure>
+      <figure><img src="ele-planta.jpg" alt="Planta de elétrica cotada"><figcaption>Planta de elétrica</figcaption></figure>
+      <figure><img src="hid-corte.jpg" alt="Corte de hidrossanitário com alturas dos pontos"><figcaption>Alturas da hidro no corte</figcaption></figure>
+      <figure><img src="arq-3d-banheiro.jpg" alt="3D cotado de banheiro"><figcaption>3D cotado de um ambiente</figcaption></figure>
+      <figure><img src="mikate-projetista-x-skill.png" alt="Mesma planta cotada pela projetista e pela IA"><figcaption>Projetista × IA na mesma planta</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<div class="dim"></div>
+
+<!-- ══ DOBRA 5 · REVISÃO ══ -->
+<section>
+  <div class="wrap">
+    <h2>Projeto mudou? Pede de novo.</h2>
+    <div class="lede" style="margin-top:18px">
+      <p>Ela mantém as suas cotas, completa o que falta e não repete medida.</p>
+      <p>Janela nova na revisão: ela troca só a corrente daquele lado, já com o vão novo.</p>
+      <p>E se você tem o seu jeito de cotar, manda uma prancha sua. Ela compara e pergunta se grava o seu padrão.</p>
+    </div>
+    <img src="janela-nova-antes-depois.png" alt="Corrente de cotas antes e depois de entrar uma janela nova" style="margin-top:40px;border:1px solid var(--rule)">
+  </div>
+</section>
+
+<div class="dim"></div>
+
+<!-- ══ DOBRA 6 · COM E SEM ══ -->
+<section>
+  <div class="wrap">
+    <h2>Cotando na mão × pedindo para a IA</h2>
+    <table>
+      <thead><tr><th></th><th>Na mão</th><th>Com a IA</th></tr></thead>
+      <tbody>
+        <tr><th>Começar</th><td class="hand">Ativa a ferramenta, escolhe face por face</td><td class="rot">Escreve o que quer cotar</td></tr>
+        <tr><th>Corte e vista de parede</th><td class="hand">Ponto por ponto, altura por altura</td><td class="rot">Pé-direito, peitoris, níveis e pontos de uma vez</td></tr>
+        <tr><th>3D</th><td class="hand">Monta a vista, trava, cota</td><td class="rot">Cria o 3D do ambiente já travado e cotado</td></tr>
+        <tr><th>Revisão</th><td class="hand">Refaz o trecho</td><td class="rot">Completa o que falta sem repetir</td></tr>
+        <tr><th>Controle</th><td class="hand">Você</td><td class="rot">Ainda você: ela mostra antes e só cria com o seu ok</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="dim"></div>
+
+<!-- ══ DOBRA 7 · O QUE VOCÊ LEVA ══ -->
+<section>
+  <div class="wrap">
+    <h2>O que você leva</h2>
+    <div class="gets" style="grid-template-columns:repeat(2,1fr)">
+      <div class="get">
+        <h3>1. A skill de cotas</h3>
+        <p>O passo a passo que o Claude segue para cotar sempre do mesmo jeito, nas quatro disciplinas. Você instala uma vez no Claude Desktop.</p>
+      </div>
+      <div class="get">
+        <h3>2. Os trechos que fazem as cotas</h3>
+        <p>Uma pasta que fica no seu computador. É ela que cria as cotas no Revit, e por isso cada pedido gasta pouco do seu plano do Claude.</p>
+      </div>
+      <div class="get">
+        <h3>3. Guia de instalação e uso</h3>
+        <p>Passo a passo: do conector gratuito do Revit até a primeira vista cotada, e o que fazer se travar.</p>
+      </div>
+      <div class="get">
+        <h3>4. Vídeos de apoio</h3>
+        <p>Os mesmos passos do guia, gravados na tela: instalar, ligar e cotar a primeira planta, o primeiro corte e o primeiro 3D. Entram na área de membros nesta semana, e você recebe sem pagar nada a mais.</p>
+      </div>
+    </div>
+    <p style="margin-top:36px;color:var(--muted)">E suporte direto comigo pelo WhatsApp até você conseguir usar.</p>
+  </div>
+</section>
+
+<!-- ══ DOBRA 8 · PREÇO ══ -->
+<section class="price" id="preco">
+  <div class="wrap">
+    <div>
+      <h2>Cote a próxima vista conversando</h2>
+      <ul>
+        <li>Skill de cotas para o Claude</li>
+        <li>Trechos de cota para as quatro disciplinas</li>
+        <li>Guia de instalação e uso, passo a passo</li>
+        <li>Vídeos de apoio (chegam nesta semana)</li>
+        <li>Suporte comigo pelo WhatsApp</li>
+      </ul>
+    </div>
+    <div>
+      <div class="tag"><sup>R$</sup>67</div>
+      <p class="fine" style="margin-top:10px">à vista</p>
+      <a class="cta" href="https://pay.hotmart.com/D108482852R" target="_blank" rel="noopener noreferrer">Quero cotar com a IA</a>
+      <p class="fine">Compra única, sem assinatura. Garantia de 7 dias pela Hotmart.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DOBRA 9 · SUPORTE ══ -->
+<section class="support tight">
+  <div class="wrap">
+    <div>
+      <h2 style="font-size:28px">Travou na instalação ou no uso? Me manda um WhatsApp.</h2>
+      <a class="wa" href="https://wa.me/5511988114901">(11) 98811-4901</a>
+      <p style="margin-top:16px;color:var(--muted);max-width:52ch">Eu mesma respondo e te acompanho até a primeira vista sair cotada. Manda o print do que apareceu no Claude, que fica mais rápido.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DOBRA 10 · QUEM É ══ -->
+<section>
+  <div class="wrap narrow author">
+    <img src="imagem-09.jpg" alt="Desiree Fontes" width="560" height="560">
+    <div>
+      <h2 style="font-size:28px">Desiree Fontes</h2>
+      <p style="margin-top:6px;color:var(--muted)">Arquiteta. Documentação executiva em Revit e automação com IA.</p>
+      <ul class="checklist" style="margin-top:22px">
+        <li>10 anos de Revit e documentação de projeto, incluindo executivo</li>
+        <li>Testei a skill em 18 projetos, das quatro disciplinas, comparando com o que o projetista entregou</li>
+        <li>As regras de cota seguem a NBR 6492 e os manuais de projeto executivo por disciplina</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="dim"></div>
+
+<!-- ══ DOBRA 11 · FAQ ══ -->
+<section>
+  <div class="wrap narrow">
+    <h2>Perguntas frequentes</h2>
+    <div class="faq">
+      <details open><summary>O que eu preciso ter?</summary><div class="a">Windows, o <b>Revit completo</b> (2023 a 2026) e o Claude Desktop (claude.ai/download). O Revit LT não serve: ele não aceita plugin, e o conector que liga o Claude ao Revit é um plugin gratuito. A skill funciona também no plano gratuito do Claude, com um limite menor de uso por dia; no plano pago você cota mais vistas seguidas.</div></details>
+      <details><summary>Ela cota o quê?</summary><div class="a">Planta, corte, fachada, vista de parede e 3D de um ambiente, em arquitetura, estrutura, elétrica e hidrossanitário. Em cada vista, ela oferece as opções antes de criar.</div></details>
+      <details><summary>Preciso saber programar ou Dynamo?</summary><div class="a">Não. Você conversa em português, como pediria para uma colega.</div></details>
+      <details><summary>Ela mexe no meu projeto sem eu ver?</summary><div class="a">Não. Ela simula, mostra o resumo e só cria depois do seu ok. Tudo sai num passo só de Ctrl+Z. Mesmo assim, teste numa cópia do arquivo primeiro.</div></details>
+      <details><summary>E se a vista já tiver cota?</summary><div class="a">Ela mantém as suas, completa o que falta e não repete medida.</div></details>
+      <details><summary>As cotas saem no padrão do meu escritório?</summary><div class="a">Ela usa o tipo de cota do seu arquivo. Se você mandar uma prancha sua já cotada, ela aprende o seu jeito: quais linhas, quais lados, eixos ou não.</div></details>
+      <details><summary>O que ela não faz?</summary><div class="a">Tags, tabelas e montagem de prancha. Família sem plano de referência, parede curva e janela em parede cortina ela lista para você cotar à mão. Ela não inventa medida.</div></details>
+      <details><summary>Gasta muito do meu plano do Claude?</summary><div class="a">Pouco. O código das cotas fica no seu computador, e cada pedido manda só uma chamada curta.</div></details>
+      <details><summary>O meu projeto vai para a IA?</summary><div class="a">O que você pede e o que o conector lê da vista, sim. Se o projeto for de cliente, confira se o contrato permite.</div></details>
+      <details><summary>Como recebo?</summary><div class="a">Pela Hotmart, logo depois da compra.</div></details>
+      <details><summary>E se não funcionar?</summary><div class="a">Me chama no WhatsApp: eu respondo e te acompanho até funcionar. E você tem 7 dias de garantia pela Hotmart.</div></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="dim" style="margin-bottom:36px"></div>
+    <span class="todo">e-mail de suporte</span><br>
+    CNPJ 38.267.341/0001-09<br>
+    Avenida Paulista, 1636 — Bela Vista, São Paulo/SP, 01310-200<br>
+    <a href="termos.html">Termos de Uso</a> · <a href="privacidade.html">Política de Privacidade</a>
+  </div>
+</footer>
+
+</body>
+</html>
