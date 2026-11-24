@@ -19,7 +19,7 @@
   --wrap:1080px;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
 body{
   margin:0; background:var(--paper ); color:var(--ink);
   font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
@@ -98,7 +98,8 @@ td.rot{color:var(--ink);font-weight:500}
 /* ---------- entregáveis ---------- */
 .gets{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:44px}
 .get .fig{height:250px;border:1px solid var(--rule);background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:14px}
-.get .fig img{max-height:100%;width:auto;object-fit:contain}
+.get .fig img{width:100%;height:100%;object-fit:contain}
+.gets-2{grid-template-columns:repeat(2,1fr)}
 .get .fig.todo-fig{background:repeating-linear-gradient(45deg,#F6F1EE,#F6F1EE 10px,#F1E9E5 10px,#F1E9E5 20px);color:#8A6E45;font-size:14.5px;font-weight:600;text-align:center;padding:24px}
 .get h3{margin:20px 0 8px}
 .get p{color:var(--muted);font-size:16px}
@@ -141,6 +142,7 @@ details .a{padding:0 44px 22px 0;color:var(--muted);max-width:70ch}
 footer{padding:52px 0 64px;font-size:15px;color:var(--muted);line-height:1.85}
 footer a{color:var(--muted)}
 .gal{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}.gal figure{margin:0;border:1px solid var(--rule);background:#fff;padding:10px}.gal figcaption{font-size:14.5px;color:var(--muted);margin-top:8px}@media (max-width:900px){.gal{grid-template-columns:1fr}}
+.convo{margin:40px 0 0;border:1px solid var(--rule);background:#fff;padding:10px}.convo figcaption{font-size:14.5px;color:var(--muted);margin-top:8px}
 .todo,.todo-fig,.draftbar{display:none}
 body.rascunho .todo{display:inline;background:#FFF3CD;color:#6B4E00;padding:2px 7px;border-radius:2px;font-size:.86em;font-weight:600}
 body.rascunho .todo-fig{display:flex}
@@ -153,7 +155,8 @@ body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size
 @media (max-width:900px){
   section{padding:60px 0}
   .hero .wrap,.price .wrap,.support .wrap{grid-template-columns:1fr;gap:40px}
-  .gets{grid-template-columns:1fr;gap:38px}
+  .gets,.gets-2{grid-template-columns:1fr;gap:38px}
+  .get .fig{height:auto;aspect-ratio:16/10}
   .steps{grid-template-columns:1fr}
   .steps li{padding-right:0}
   .author{grid-template-columns:1fr;gap:26px}
@@ -231,11 +234,17 @@ body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size
     <ol class="steps">
       <li>Você abre a vista no Revit e escreve: "cota a planta do térreo"</li>
       <li>Ela lê a vista e oferece as opções, numeradas</li>
-      <li>Ela simula e diz o resumo: "vou criar 22 cotas"</li>
+      <li>Ela simula e pergunta: "posso criar as 17 cotas na planta do térreo?"</li>
       <li>Você diz ok, e as cotas aparecem. Um Ctrl+Z desfaz tudo</li>
     </ol>
+    <figure class="convo">
+      <picture>
+        <source media="(max-width:700px)" srcset="como-usar-conversa-celular.jpg" width="800" height="1284">
+        <img src="como-usar-conversa.jpg" alt="Conversa no Claude ao lado do Revit: ela pergunta se pode criar as 17 cotas, a resposta é ok, cria, e a planta do térreo aparece cotada" width="1400" height="563" loading="lazy">
+      </picture>
+      <figcaption>Conversa real no Claude e a planta do térreo já cotada no Revit.</figcaption>
+    </figure>
     <p style="margin-top:30px;color:var(--muted)">No fim, ela diz o que ficou para cotar à mão. Nada de cota inventada.</p>
-    <p class="todo" style="margin-top:12px">print da conversa no Claude</p>
   </div>
 </section>
 
@@ -297,22 +306,26 @@ body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size
 <section>
   <div class="wrap">
     <h2>O que você leva</h2>
-    <div class="gets" style="grid-template-columns:repeat(2,1fr)">
+    <div class="gets gets-2">
       <div class="get">
+        <div class="fig"><img src="leva-skill.jpg" alt="Skill projeto-ia-cotas ligada nas configurações do Claude" loading="lazy"></div>
         <h3>1. A skill de cotas</h3>
         <p>O passo a passo que o Claude segue para cotar sempre do mesmo jeito, nas quatro disciplinas. Você instala uma vez no Claude Desktop.</p>
       </div>
       <div class="get">
+        <div class="fig"><img src="leva-pasta.jpg" alt="Pasta ProjetoIA-Cotas em Documentos" loading="lazy"></div>
         <h3>2. Os trechos que fazem as cotas</h3>
         <p>Uma pasta que fica no seu computador. É ela que cria as cotas no Revit, e por isso cada pedido gasta pouco do seu plano do Claude.</p>
       </div>
       <div class="get">
+        <div class="fig"><img src="leva-guia.jpg" alt="Capa do guia de instalação e uso em PDF" loading="lazy"></div>
         <h3>3. Guia de instalação e uso</h3>
-        <p>Passo a passo: do conector gratuito do Revit até a primeira vista cotada, e o que fazer se travar.</p>
+        <p>Um PDF com prints reais, passo a passo: do conector gratuito do Revit até a primeira vista cotada, e o que fazer se travar.</p>
       </div>
       <div class="get">
-        <h3>4. Vídeos de apoio</h3>
-        <p>Os mesmos passos do guia, gravados na tela: instalar, ligar e cotar a primeira planta, o primeiro corte e o primeiro 3D. Entram na área de membros nesta semana, e você recebe sem pagar nada a mais.</p>
+        <div class="fig"><img src="leva-aulas.jpg" alt="Aula em vídeo: o Claude à esquerda pergunta o tipo de cota, a planta aberta no Revit à direita" loading="lazy"></div>
+        <h3>4. Aulas em vídeo</h3>
+        <p>Seis aulas curtas, já na área de membros: instalar o conector, a pasta e a skill; a primeira vista cotada; e a revisão, o corte e o 3D.</p>
       </div>
     </div>
     <p style="margin-top:36px;color:var(--muted)">E suporte direto comigo pelo WhatsApp até você conseguir usar.</p>
@@ -328,7 +341,7 @@ body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size
         <li>Skill de cotas para o Claude</li>
         <li>Trechos de cota para as quatro disciplinas</li>
         <li>Guia de instalação e uso, passo a passo</li>
-        <li>Vídeos de apoio (chegam nesta semana)</li>
+        <li>Seis aulas em vídeo, do zero à vista cotada</li>
         <li>Suporte comigo pelo WhatsApp</li>
       </ul>
     </div>
@@ -384,7 +397,7 @@ body.rascunho .draftbar{display:block;background:#FFF3CD;color:#6B4E00;font-size
       <details><summary>O que ela não faz?</summary><div class="a">Tags, tabelas e montagem de prancha. Família sem plano de referência, parede curva e janela em parede cortina ela lista para você cotar à mão. Ela não inventa medida.</div></details>
       <details><summary>Gasta muito do meu plano do Claude?</summary><div class="a">Pouco. O código das cotas fica no seu computador, e cada pedido manda só uma chamada curta.</div></details>
       <details><summary>O meu projeto vai para a IA?</summary><div class="a">O que você pede e o que o conector lê da vista, sim. Se o projeto for de cliente, confira se o contrato permite.</div></details>
-      <details><summary>Como recebo?</summary><div class="a">Pela Hotmart, logo depois da compra.</div></details>
+      <details><summary>Como recebo?</summary><div class="a">Pela Hotmart, logo depois da compra: na área de membros estão as aulas, os arquivos e o guia em PDF.</div></details>
       <details><summary>E se não funcionar?</summary><div class="a">Me chama no WhatsApp: eu respondo e te acompanho até funcionar. E você tem 7 dias de garantia pela Hotmart.</div></details>
     </div>
   </div>
